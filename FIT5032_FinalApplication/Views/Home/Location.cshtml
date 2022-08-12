@@ -1,0 +1,66 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+    }
+
+    #map {
+        position: absolute;
+        top: 100px;
+        bottom: 50px;
+        width: 70%;
+    }
+</style>
+<body>
+    <style>
+        #menu {
+            position: absolute;
+            background: #efefef;
+            padding: 10px;
+            font-family: 'Open Sans', sans-serif;
+        }
+    </style>
+
+    <div id="map"></div>
+
+    <div id="menu">
+        <input id="satellite-v9" type="radio" name="rtoggle" value="satellite" checked="checked">
+        <!-- See a list of Mapbox-hosted public styles at -->
+        <!-- https://docs.mapbox.com/api/maps/styles/#mapbox-styles -->
+        <label for="satellite-v9">satellite</label>
+        <input id="light-v10" type="radio" name="rtoggle" value="light">
+        <label for="light-v10">light</label>
+        <input id="dark-v10" type="radio" name="rtoggle" value="dark">
+        <label for="dark-v10">dark</label>
+        <input id="streets-v11" type="radio" name="rtoggle" value="streets">
+        <label for="streets-v11">streets</label>
+        <input id="outdoors-v11" type="radio" name="rtoggle" value="outdoors">
+        <label for="outdoors-v11">outdoors</label>
+    </div>
+    
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoieXVhbmdoYW4xIiwiYSI6ImNsNnAxbGFqNDAwOHgzY283MDVzajM2bjMifQ.sXtZunaULKkrhSYlfWMdUA';
+        var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v11',
+            center: [120.6, 31.3], // starting position
+            zoom: 9 // starting zoom
+        });
+        map.addControl(new mapboxgl.NavigationControl());
+        const layerList = document.getElementById('menu');
+        const inputs = layerList.getElementsByTagName('input');
+
+        for (const input of inputs) {
+            input.onclick = (layer) => {
+                const layerId = layer.target.id;
+                map.setStyle('mapbox://styles/mapbox/' + layerId);
+            };
+        }
+    </script>
+ </body>
+
+
+
